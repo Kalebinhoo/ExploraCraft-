@@ -37,10 +37,18 @@ export default function About() {
   useEffect(() => {
     if (showProfile) {
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
+      const preventScroll = (e) => e.preventDefault()
+      document.addEventListener('touchmove', preventScroll, { passive: false })
+      return () => {
+        document.body.style.overflow = ''
+        document.documentElement.style.overflow = ''
+        document.removeEventListener('touchmove', preventScroll)
+      }
     } else {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
     }
-    return () => { document.body.style.overflow = '' }
   }, [showProfile])
 
   useEffect(() => {
