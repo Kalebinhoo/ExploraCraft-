@@ -29,6 +29,7 @@ export default function Header() {
     { href: '/#features', label: 'Recursos' },
     { href: '/comandos', label: 'Comandos' },
     { href: '/docs', label: 'Docs' },
+    { href: '/premium', label: 'Premium' },
   ]
 
   return (

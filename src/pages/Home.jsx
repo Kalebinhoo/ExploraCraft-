@@ -4,6 +4,7 @@ import Hero from '../components/Hero'
 import Features from '../components/Features'
 import About from '../components/About'
 import Servers from '../components/Servers'
+import PremiumSection from '../components/PremiumSection'
 import Footer from '../components/Footer'
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <Features />
         <About />
         <Servers />
+        <PremiumSection />
         <Footer />
       </div>
     </>
