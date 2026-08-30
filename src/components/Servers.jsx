@@ -42,9 +42,12 @@ export default function Servers() {
 
         <div className="flex gap-8 animate-marquee w-max">
           {duplicated.map((server, index) => (
-            <div
+            <a
               key={`${server.id || server.name}-${index}`}
-              className="flex-shrink-0 flex items-center justify-center group cursor-pointer"
+              href={server.invite || `https://discord.gg/${server.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 flex items-center justify-center group cursor-pointer no-underline"
             >
               <div className="w-24 h-24 max-md:w-18 max-md:h-18 rounded-full overflow-hidden border-4 border-white/10 group-hover:border-mc-green/60 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(124,179,66,0.3)]">
                 <img
@@ -56,7 +59,7 @@ export default function Servers() {
                   }}
                 />
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
