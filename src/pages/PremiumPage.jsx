@@ -121,7 +121,13 @@ export default function PremiumPage() {
         }),
       })
 
-      const data = await res.json()
+      const text = await res.text()
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch {
+        throw new Error('API não disponível. Faça deploy na Vercel para usar.')
+      }
 
       if (!res.ok) {
         throw new Error(data.error || 'Erro ao processar compra')
