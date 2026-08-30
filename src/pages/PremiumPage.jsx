@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Coins, Star, Zap, Shield, ArrowLeft, Check, ShoppingCart } from 'lucide-react'
+import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, User, Loader2, CheckCircle2 } from 'lucide-react'
+
+const API_BASE = ''
 
 const packages = [
   {
+    id: 'starter',
     name: 'Starter',
     coins: 500,
     price: 'R$ 5',
@@ -20,6 +23,7 @@ const packages = [
     ],
   },
   {
+    id: 'pro',
     name: 'Pro',
     coins: 1500,
     price: 'R$ 12',
@@ -37,6 +41,7 @@ const packages = [
     ],
   },
   {
+    id: 'mega',
     name: 'Mega',
     coins: 5000,
     price: 'R$ 35',
@@ -76,6 +81,54 @@ const faq = [
 
 export default function PremiumPage() {
   const [openFaq, setOpenFaq] = useState(null)
+  const [userId, setUserId] = useState('')
+  const [selectedPkg, setSelectedPkg] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
+
+  const handlePurchase = async (pkg) => {
+    if (!userId.trim()) {
+      setError('Digite seu ID do Discord')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    setSelectedPkg(pkg)
+
+    try {
+      const res = await fetch(`${API_BASE}/api/add-coins`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': 'exploracraft-api-key-2026',
+        },
+        body: JSON.stringify({
+          user_id: userId.trim(),
+          quantidade: pkg.coins,
+          motivo: `compra_${pkg.id}`,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro ao processar compra')
+      }
+
+      setSuccess(true)
+      setTimeout(() => {
+        setSuccess(false)
+        setUserId('')
+        setSelectedPkg(null)
+      }, 3000)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-mc-bg py-20 relative z-10">
@@ -95,7 +148,7 @@ export default function PremiumPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <Coins size={40} className="text-yellow-400" />
@@ -111,6 +164,37 @@ export default function PremiumPage() {
           </p>
         </motion.div>
 
+        {/* User ID Input */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="max-w-md mx-auto mb-12"
+        >
+          <div className="bg-mc-bg-card rounded-xl p-6 border border-white/10">
+            <label className="flex items-center gap-2 text-white font-semibold mb-3">
+              <User size={18} />
+              Seu ID do Discord
+            </label>
+            <input
+              type="text"
+              value={userId}
+              onChange={(e) => { setUserId(e.target.value); setError('') }}
+              placeholder="Ex: 123456789012345678"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 transition-colors"
+            />
+            {error && (
+              <p className="text-red-400 text-sm mt-2">{error}</p>
+            )}
+            {success && (
+              <p className="text-green-400 text-sm mt-2 flex items-center gap-2">
+                <CheckCircle2 size={16} />
+                Minecoins adicionados com sucesso!
+              </p>
+            )}
+          </div>
+        </motion.div>
+
         {/* Packages */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {packages.map((pkg, index) => (
@@ -118,7 +202,7 @@ export default function PremiumPage() {
               key={pkg.name}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
               className={`relative bg-gradient-to-br ${pkg.color} rounded-2xl p-8 border ${pkg.border} transition-all duration-300`}
             >
               {pkg.popular && (
@@ -150,9 +234,27 @@ export default function PremiumPage() {
                 ))}
               </ul>
 
-              <button className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2">
-                <ShoppingCart size={18} />
-                Comprar
+              <button
+                onClick={() => handlePurchase(pkg)}
+                disabled={loading || success}
+                className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading && selectedPkg?.id === pkg.id ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Processando...
+                  </>
+                ) : success && selectedPkg?.id === pkg.id ? (
+                  <>
+                    <CheckCircle2 size={18} />
+                    Concluído!
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={18} />
+                    Comprar
+                  </>
+                )}
               </button>
             </motion.div>
           ))}
@@ -162,7 +264,7 @@ export default function PremiumPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.5 }}
         >
           <h2 className="text-3xl max-md:text-2xl text-white font-bold text-center mb-10">
             Perguntas Frequentes
