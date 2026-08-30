@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Play, Axe, Map, Gamepad2, Coins, Shield, ChevronRight, ArrowLeft, Search } from 'lucide-react'
+import { Play, Axe, Map, Gamepad2, Coins, Shield, ArrowLeft, Search } from 'lucide-react'
 
 const commandCategories = [
   {
-    id: 'progression',
-    title: 'Início e Progressão',
+    category: 'Início e Progressão',
     icon: Play,
+    color: 'from-green-500/20 to-green-600/5',
     commands: [
       { name: '/iniciar', description: 'Inicie sua aventura no ExploraCraft!' },
       { name: '/perfil', description: 'Veja seu perfil de jogador' },
@@ -16,9 +16,9 @@ const commandCategories = [
     ],
   },
   {
-    id: 'crafting',
-    title: 'Coleta e Crafting',
+    category: 'Coleta e Crafting',
     icon: Axe,
+    color: 'from-amber-500/20 to-amber-600/5',
     commands: [
       { name: '/madeira', description: 'Colete madeira no bioma atual' },
       { name: '/craft', description: 'Crie itens e ferramentas' },
@@ -28,9 +28,9 @@ const commandCategories = [
     ],
   },
   {
-    id: 'exploration',
-    title: 'Exploração',
+    category: 'Exploração',
     icon: Map,
+    color: 'from-blue-500/20 to-blue-600/5',
     commands: [
       { name: '/explorar', description: 'Explore diferentes locais e biomas' },
       { name: '/cacar', description: 'Vá caçar animais no bioma' },
@@ -38,26 +38,26 @@ const commandCategories = [
     ],
   },
   {
-    id: 'minigames',
-    title: 'Mini-Games',
+    category: 'Mini-Games',
     icon: Gamepad2,
+    color: 'from-purple-500/20 to-purple-600/5',
     commands: [
       { name: '/exploragames', description: 'Jogue mini-games divertidos diretamente no Discord' },
     ],
   },
   {
-    id: 'economy',
-    title: 'Economia',
+    category: 'Economia',
     icon: Coins,
+    color: 'from-yellow-500/20 to-yellow-600/5',
     commands: [
       { name: '/saldo', description: 'Veja seu saldo de Minecoins' },
       { name: '/adicionar_saldo', description: 'Adiciona Minecoins (apenas dono)' },
     ],
   },
   {
-    id: 'admin',
-    title: 'Administração',
+    category: 'Administração',
     icon: Shield,
+    color: 'from-red-500/20 to-red-600/5',
     commands: [
       { name: '/ver_jogador', description: 'Ver informações de um jogador' },
       { name: '/dar_itens_todos', description: 'Dar todos os itens craftáveis' },
@@ -67,42 +67,34 @@ const commandCategories = [
 ]
 
 export default function CommandsPage() {
-  const [activeSection, setActiveSection] = useState('progression')
   const [searchQuery, setSearchQuery] = useState('')
 
-  const filteredSections = commandCategories.filter((section) => {
-    if (!searchQuery) return true
-    const query = searchQuery.toLowerCase()
-    return (
-      section.title.toLowerCase().includes(query) ||
-      section.commands.some(
-        (cmd) =>
+  const filteredCategories = commandCategories
+    .map((cat) => ({
+      ...cat,
+      commands: cat.commands.filter((cmd) => {
+        if (!searchQuery) return true
+        const query = searchQuery.toLowerCase()
+        return (
           cmd.name.toLowerCase().includes(query) ||
           cmd.description.toLowerCase().includes(query)
-      )
-    )
-  })
-
-  const activeData = commandCategories.find((s) => s.id === activeSection)
+        )
+      }),
+    }))
+    .filter((cat) => cat.commands.length > 0)
 
   return (
-    <div className="min-h-screen bg-mc-bg text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#1a1a1a]/95 border-b border-mc-green/20" style={{ backdropFilter: 'blur(16px)' }}>
-        <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-mc-green no-underline font-semibold hover:text-mc-green-light transition-colors"
-            >
-              <ArrowLeft size={18} />
-              Voltar
-            </Link>
-            <div className="w-px h-6 bg-mc-green/20" />
-            <h1 className="text-lg font-bold text-mc-green" style={{ textShadow: '1px 1px 0px #2d5016' }}>
-              Comandos
-            </h1>
-          </div>
+    <div className="min-h-screen bg-mc-bg py-20 relative z-10">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-12">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-mc-green no-underline font-semibold hover:text-mc-green-light transition-colors"
+          >
+            <ArrowLeft size={18} />
+            Voltar
+          </Link>
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
             <input
@@ -114,87 +106,63 @@ export default function CommandsPage() {
             />
           </div>
         </div>
-      </header>
 
-      <div className="max-w-7xl mx-auto px-5 py-8 flex gap-8">
-        {/* Sidebar */}
-        <aside className="w-64 flex-shrink-0 max-lg:hidden">
-          <nav className="sticky top-24 flex flex-col gap-2">
-            {filteredSections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all duration-300 border border-transparent ${
-                  activeSection === section.id
-                    ? 'bg-mc-green/10 text-mc-green border-mc-green/20'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <section.icon size={18} />
-                {section.title}
-                {activeSection === section.id && (
-                  <ChevronRight size={14} className="ml-auto" />
-                )}
-              </button>
-            ))}
-          </nav>
-        </aside>
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl max-md:text-2xl text-center mb-4 text-white font-bold tracking-wider"
+          style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
+        >
+          Comandos Disponíveis
+        </motion.h1>
 
-        {/* Content */}
-        <main className="flex-1 min-w-0">
-          {/* Mobile section selector */}
-          <div className="lg:hidden mb-6 flex flex-wrap gap-2">
-            {filteredSections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
-                  activeSection === section.id
-                    ? 'bg-mc-green/10 text-mc-green border border-mc-green/20'
-                    : 'bg-white/5 text-gray-400 border border-transparent'
-                }`}
-              >
-                <section.icon size={14} />
-                {section.title}
-              </button>
-            ))}
-          </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-center text-gray-400 mb-16"
+        >
+          Use <code className="bg-white/10 px-2 py-1 rounded text-mc-green font-bold">/ajuda</code> no Discord para ver todos os comandos
+        </motion.p>
 
-          {activeData && (
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredCategories.map((cat, catIndex) => (
             <motion.div
-              key={activeData.id}
-              initial={{ opacity: 0, y: 20 }}
+              key={cat.category}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ delay: catIndex * 0.08 }}
+              className={`bg-gradient-to-br ${cat.color} rounded-2xl p-6 border border-white/5 hover:border-white/10 transition-all duration-300`}
             >
-              <div className="flex items-center gap-3 mb-8">
-                <activeData.icon size={28} className="text-mc-green" />
-                <h2
-                  className="text-3xl font-bold text-mc-green"
-                  style={{ textShadow: '2px 2px 0px #2d5016' }}
-                >
-                  {activeData.title}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                  <cat.icon size={20} className="text-gray-300" />
+                </div>
+                <h2 className="text-lg text-white font-bold m-0">
+                  {cat.category}
                 </h2>
               </div>
 
-              <div className="flex flex-col gap-4">
-                {activeData.commands.map((cmd) => (
+              <div className="flex flex-col gap-2">
+                {cat.commands.map((cmd) => (
                   <div
                     key={cmd.name}
-                    className="bg-mc-bg-card rounded-xl p-6 border border-transparent hover:border-mc-green/10 transition-all"
+                    className="p-3 bg-black/20 rounded-lg hover:bg-black/30 transition-colors"
                   >
-                    <code className="text-lg font-bold text-mc-green-light block mb-2">
+                    <div className="font-mono text-sm text-mc-green-light font-bold">
                       {cmd.name}
-                    </code>
-                    <p className="text-gray-400 leading-relaxed">
+                    </div>
+                    <div className="text-gray-400 text-xs mt-1">
                       {cmd.description}
-                    </p>
+                    </div>
                   </div>
                 ))}
               </div>
             </motion.div>
-          )}
-        </main>
+          ))}
+        </div>
       </div>
     </div>
   )
