@@ -1,9 +1,12 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Play, Axe, Map, Gamepad2, Coins, Shield } from 'lucide-react'
+import { Play, Axe, Map, Gamepad2, Coins, Shield, ChevronRight, ArrowLeft, Search } from 'lucide-react'
 
 const commandCategories = [
   {
-    category: 'Início e Progressão',
+    id: 'progression',
+    title: 'Início e Progressão',
     icon: Play,
     commands: [
       { name: '/iniciar', description: 'Inicie sua aventura no ExploraCraft!' },
@@ -13,7 +16,8 @@ const commandCategories = [
     ],
   },
   {
-    category: 'Coleta e Crafting',
+    id: 'crafting',
+    title: 'Coleta e Crafting',
     icon: Axe,
     commands: [
       { name: '/madeira', description: 'Colete madeira no bioma atual' },
@@ -24,7 +28,8 @@ const commandCategories = [
     ],
   },
   {
-    category: 'Exploração',
+    id: 'exploration',
+    title: 'Exploração',
     icon: Map,
     commands: [
       { name: '/explorar', description: 'Explore diferentes locais e biomas' },
@@ -33,14 +38,16 @@ const commandCategories = [
     ],
   },
   {
-    category: 'Mini-Games',
+    id: 'minigames',
+    title: 'Mini-Games',
     icon: Gamepad2,
     commands: [
       { name: '/exploragames', description: 'Jogue mini-games divertidos diretamente no Discord' },
     ],
   },
   {
-    category: 'Economia',
+    id: 'economy',
+    title: 'Economia',
     icon: Coins,
     commands: [
       { name: '/saldo', description: 'Veja seu saldo de Minecoins' },
@@ -48,7 +55,8 @@ const commandCategories = [
     ],
   },
   {
-    category: 'Administração',
+    id: 'admin',
+    title: 'Administração',
     icon: Shield,
     commands: [
       { name: '/ver_jogador', description: 'Ver informações de um jogador' },
@@ -59,70 +67,134 @@ const commandCategories = [
 ]
 
 export default function CommandsPage() {
-  return (
-    <div className="min-h-screen bg-mc-bg py-24 relative z-10">
-      <div className="max-w-5xl mx-auto px-6">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl max-md:text-2xl text-center mb-16 text-white font-bold tracking-wider"
-          style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
-        >
-          Comandos Disponíveis
-        </motion.h1>
+  const [activeSection, setActiveSection] = useState('progression')
+  const [searchQuery, setSearchQuery] = useState('')
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {commandCategories.map((cat, catIndex) => (
-            <motion.div
-              key={cat.category}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: catIndex * 0.1 }}
-              className="bg-mc-bg-card rounded-xl p-6 border border-mc-green/10 hover:border-mc-green/30 transition-all duration-300"
+  const filteredSections = commandCategories.filter((section) => {
+    if (!searchQuery) return true
+    const query = searchQuery.toLowerCase()
+    return (
+      section.title.toLowerCase().includes(query) ||
+      section.commands.some(
+        (cmd) =>
+          cmd.name.toLowerCase().includes(query) ||
+          cmd.description.toLowerCase().includes(query)
+      )
+    )
+  })
+
+  const activeData = commandCategories.find((s) => s.id === activeSection)
+
+  return (
+    <div className="min-h-screen bg-mc-bg text-white">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-[#1a1a1a]/95 border-b border-mc-green/20" style={{ backdropFilter: 'blur(16px)' }}>
+        <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-mc-green no-underline font-semibold hover:text-mc-green-light transition-colors"
             >
-              <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/10">
-                <cat.icon size={22} className="text-gray-400" />
+              <ArrowLeft size={18} />
+              Voltar
+            </Link>
+            <div className="w-px h-6 bg-mc-green/20" />
+            <h1 className="text-lg font-bold text-mc-green" style={{ textShadow: '1px 1px 0px #2d5016' }}>
+              Comandos
+            </h1>
+          </div>
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+            <input
+              type="text"
+              placeholder="Buscar comandos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-white/5 border border-mc-green/20 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 w-64 max-md:w-48 transition-colors"
+            />
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-5 py-8 flex gap-8">
+        {/* Sidebar */}
+        <aside className="w-64 flex-shrink-0 max-lg:hidden">
+          <nav className="sticky top-24 flex flex-col gap-2">
+            {filteredSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all duration-300 border border-transparent ${
+                  activeSection === section.id
+                    ? 'bg-mc-green/10 text-mc-green border-mc-green/20'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <section.icon size={18} />
+                {section.title}
+                {activeSection === section.id && (
+                  <ChevronRight size={14} className="ml-auto" />
+                )}
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Content */}
+        <main className="flex-1 min-w-0">
+          {/* Mobile section selector */}
+          <div className="lg:hidden mb-6 flex flex-wrap gap-2">
+            {filteredSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                  activeSection === section.id
+                    ? 'bg-mc-green/10 text-mc-green border border-mc-green/20'
+                    : 'bg-white/5 text-gray-400 border border-transparent'
+                }`}
+              >
+                <section.icon size={14} />
+                {section.title}
+              </button>
+            ))}
+          </div>
+
+          {activeData && (
+            <motion.div
+              key={activeData.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <activeData.icon size={28} className="text-mc-green" />
                 <h2
-                  className="text-lg text-gray-300 font-bold m-0"
-                  style={{ textShadow: '1px 1px 0px rgba(0,0,0,0.5)' }}
+                  className="text-3xl font-bold text-mc-green"
+                  style={{ textShadow: '2px 2px 0px #2d5016' }}
                 >
-                  {cat.category}
+                  {activeData.title}
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
-                {cat.commands.map((cmd) => (
+              <div className="flex flex-col gap-4">
+                {activeData.commands.map((cmd) => (
                   <div
                     key={cmd.name}
-                    className="p-3 bg-white/5 border-l-2 border-white/20 hover:border-white/40 transition-colors"
+                    className="bg-mc-bg-card rounded-xl p-6 border border-transparent hover:border-mc-green/10 transition-all"
                   >
-                    <div className="font-mono text-sm text-gray-300 font-bold">
+                    <code className="text-lg font-bold text-mc-green-light block mb-2">
                       {cmd.name}
-                    </div>
-                    <div className="text-gray-500 text-xs mt-1">
+                    </code>
+                    <p className="text-gray-400 leading-relaxed">
                       {cmd.description}
-                    </div>
+                    </p>
                   </div>
                 ))}
               </div>
             </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-center py-8 px-5 bg-white/5 rounded-xl max-w-5xl mx-auto mt-12"
-        >
-          <p className="text-lg text-gray-400 font-semibold">
-            Use{' '}
-            <code className="bg-[#1a1a1a]/80 px-3 py-1.5 rounded text-gray-300 font-bold border border-white/10 text-base">
-              /ajuda
-            </code>{' '}
-            no Discord para ver todos os comandos
-          </p>
-        </motion.div>
+          )}
+        </main>
       </div>
     </div>
   )
