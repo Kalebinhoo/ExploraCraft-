@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraft.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraft-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-minecraft: 'Minecraft', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --color-mc-green: #7cb342;
+  --color-mc-green-light: #a5d46a;
+  --color-mc-green-dark: #558b2f;
+  --color-mc-green-darkest: #2d5016;
+  --color-mc-bg: #0a0a0a;
+  --color-mc-bg-card: rgba(26, 26, 26, 0.6);
+  --color-mc-glass: rgba(255, 255, 255, 0.05);
+  --color-mc-border: rgba(124, 179, 66, 0.2);
+  --color-mc-text: #e0e0e0;
+  --color-mc-text-muted: #999999;
+  --color-mc-text-dim: #666666;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-minecraft);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-mc-bg);
+  color: var(--color-mc-text);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-mc-green);
+  color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-mc-green-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mc-green);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
