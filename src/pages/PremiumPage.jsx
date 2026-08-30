@@ -184,7 +184,7 @@ export default function PremiumPage() {
                   </span>
                 </button>
                 {openFaq === index && (
-                  <div className="px-6 pb-4 text-gray-400 text-sm leading-relaxed">
+                  <div className="px-6 pb-4 text-white text-sm leading-relaxed">
                     {item.a}
                   </div>
                 )}
