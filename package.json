@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.4",
     "@tailwindcss/vite": "^4.3.3",
     "@tsparticles/react": "^4.3.2",
     "framer-motion": "^13.1.1",
