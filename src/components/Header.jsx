@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { useClickSound } from '../hooks/useClickSound'
 
 export default function Header() {
+  const playClick = useClickSound()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -53,6 +55,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={playClick}
                 className="text-white no-underline font-semibold py-2 px-3 rounded transition-all duration-300 hover:text-gray-300 hover:-translate-y-0.5 relative group whitespace-nowrap"
               >
                 {link.label}
@@ -64,6 +67,7 @@ export default function Header() {
               href="https://discord.com/oauth2/authorize"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={playClick}
               className="text-white no-underline font-bold px-5 py-2.5 rounded relative overflow-hidden transition-all duration-300 hover:translate-y-0.5 whitespace-nowrap"
               style={{
                 background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
@@ -112,7 +116,7 @@ export default function Header() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  onClick={() => setMobileOpen(false)}
+                onClick={() => { playClick(); setMobileOpen(false) }}
                   className="text-white no-underline font-semibold py-3 px-6 rounded-lg w-full text-center hover:bg-white/5 hover:text-gray-300 transition-all"
                 >
                   {link.label}
@@ -122,6 +126,7 @@ export default function Header() {
                 href="https://discord.com/oauth2/authorize"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={playClick}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}

@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import Particles from '@tsparticles/react'
 import { loadFull } from 'tsparticles'
+import { useClickSound } from '../hooks/useClickSound'
 
 export default function Hero() {
   const [ready, setReady] = useState(false)
+  const playClick = useClickSound()
 
   useEffect(() => {
     loadFull().then(() => setReady(true))
@@ -110,6 +112,7 @@ export default function Hero() {
               href="https://discord.com/oauth2/authorize"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={playClick}
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden"
