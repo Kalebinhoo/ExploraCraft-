@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const fallbackServers = [
-  { name: 'Servidor 1', icon: null, id: '1' },
-  { name: 'Servidor 2', icon: null, id: '2' },
-  { name: 'Servidor 3', icon: null, id: '3' },
-  { name: 'Servidor 4', icon: null, id: '4' },
+  { name: 'Mizushi', icon: null, id: '1' },
+  { name: 'Smart games', icon: null, id: '2' },
+  { name: 'Scrow Community', icon: null, id: '3' },
+  { name: "Sakura's cafe", icon: null, id: '4' },
+  { name: 'Mundo Lunático', icon: null, id: '5' },
+  { name: 'Minecraft', icon: null, id: '6' },
+  { name: 'Net Caos Craft', icon: null, id: '7' },
+  { name: 'Minecraft V2', icon: null, id: '8' },
+  { name: 'Minecraft V3', icon: null, id: '9' },
+  { name: 'Myra', icon: null, id: '10' },
 ]
 
 export default function Servers() {
