@@ -83,3 +83,16 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-wave {
+  animation: wave 1.2s ease-in-out infinite;
+}

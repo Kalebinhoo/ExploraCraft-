@@ -47,9 +47,10 @@ export default function Servers() {
               href={server.invite || `https://discord.gg/${server.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 flex items-center justify-center group cursor-pointer no-underline"
+              className="flex-shrink-0 flex items-center justify-center group cursor-pointer no-underline animate-wave"
+              style={{ animationDelay: `${(index % servers.length) * 0.15}s` }}
             >
-              <div className="w-24 h-24 max-md:w-18 max-md:h-18 rounded-full overflow-hidden border-4 border-white/10 group-hover:border-mc-green/60 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(124,179,66,0.3)]">
+              <div className="w-24 h-24 max-md:w-18 max-md:h-18 rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img
                   src={server.icon || `https://ui-avatars.com/api/?name=${server.name}&background=2d6a4f&color=fff&size=192`}
                   alt={server.name}
