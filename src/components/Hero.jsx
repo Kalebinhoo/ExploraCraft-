@@ -126,29 +126,6 @@ export default function Hero() {
             >
               Adicionar ao Discord
             </motion.a>
-            <motion.a
-              href="#commands"
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="text-white no-underline font-bold px-8 py-4 rounded flex items-center gap-3"
-              style={{
-                background: 'linear-gradient(180deg, #555 0%, #444 50%, #333 100%)',
-                textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
-                border: '2px solid #222',
-                borderTopColor: '#777',
-                borderLeftColor: '#777',
-                borderBottomColor: '#000',
-                borderRightColor: '#000',
-                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 0 #1a1a1a, 0 6px 8px rgba(0,0,0,0.5)',
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <rect x="4" y="6" width="16" height="2" fill="currentColor"/>
-                <rect x="4" y="11" width="16" height="2" fill="currentColor"/>
-                <rect x="4" y="16" width="12" height="2" fill="currentColor"/>
-              </svg>
-              Ver Comandos
-            </motion.a>
           </motion.div>
         </motion.div>
       </motion.div>
