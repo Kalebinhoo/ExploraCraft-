@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Logo section */}
           <div className="flex flex-col gap-5">
             <a href="/#home" className="flex items-center gap-3 text-gray-300 font-bold text-xl no-underline">
-              <img src="/src/assets/bedrock.png" alt="ExploraCraft" className="w-10 h-10 drop-shadow-lg" />
+              <img src="/bedrock.png" alt="ExploraCraft" className="w-10 h-10 drop-shadow-lg" />
               <span className="drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">ExploraCraft</span>
             </a>
             <p className="text-mc-text-muted leading-relaxed max-w-xs">

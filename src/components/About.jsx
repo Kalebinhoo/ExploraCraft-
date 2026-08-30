@@ -98,7 +98,7 @@ export default function About() {
         </motion.h2>
         <div className="flex flex-col md:flex-row items-center gap-12">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="flex-1">
-            <img src="/src/assets/kalebinho_sobre.png" alt="Sobre o ExploraCraft" className="w-full" />
+            <img src="/kalebinho_sobre.png" alt="Sobre o ExploraCraft" className="w-full" />
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="flex-1">
             <h3 className="text-2xl text-gray-200 font-bold mb-6" style={{ textShadow: '1px 1px 0px rgba(0,0,0,0.5)' }}>Quem criou o ExploraCraft?</h3>
@@ -125,7 +125,7 @@ export default function About() {
 
         <div className="flex flex-col md:flex-row items-center gap-12">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="flex-1">
-            <img src="/src/assets/kalebinho_sobre.png" alt="Sobre o ExploraCraft" className="w-full" />
+            <img src="/kalebinho_sobre.png" alt="Sobre o ExploraCraft" className="w-full" />
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="flex-1">

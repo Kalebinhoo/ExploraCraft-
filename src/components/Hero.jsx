@@ -57,7 +57,7 @@ export default function Hero() {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ backgroundImage: 'url(/src/assets/steve_squeleton.png)' }}
+        style={{ backgroundImage: 'url(/steve_squeleton.png)' }}
       />
 
       {/* Blur overlay */}

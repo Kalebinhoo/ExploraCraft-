@@ -44,7 +44,7 @@ export default function Header() {
         <div className="flex justify-between items-center py-5">
           {/* Logo */}
           <a href="/#home" className="flex items-center gap-3 text-gray-300 font-bold text-xl no-underline">
-            <img src="/src/assets/bedrock.png" alt="ExploraCraft" className="w-10 h-10 drop-shadow-lg" />
+            <img src="/bedrock.png" alt="ExploraCraft" className="w-10 h-10 drop-shadow-lg" />
             <span className="drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">ExploraCraft</span>
           </a>
 
