@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, User, Loader2, CheckCircle2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, User, Loader2, CheckCircle2, X, Copy } from 'lucide-react'
 
 const API_BASE = ''
 
@@ -11,6 +11,7 @@ const packages = [
     name: 'Starter',
     coins: 500,
     price: 'R$ 5',
+    priceNum: 5,
     pricePerCoin: 'R$ 0,010',
     icon: Coins,
     color: 'from-gray-500/20 to-gray-600/5',
@@ -27,6 +28,7 @@ const packages = [
     name: 'Pro',
     coins: 1500,
     price: 'R$ 12',
+    priceNum: 12,
     pricePerCoin: 'R$ 0,008',
     icon: Star,
     color: 'from-mc-green/20 to-mc-green/5',
@@ -45,6 +47,7 @@ const packages = [
     name: 'Mega',
     coins: 5000,
     price: 'R$ 35',
+    priceNum: 35,
     pricePerCoin: 'R$ 0,007',
     icon: Zap,
     color: 'from-yellow-500/20 to-yellow-600/5',
@@ -60,10 +63,12 @@ const packages = [
   },
 ]
 
+const PIX_KEY = 'seu-pix-aqui'
+
 const faq = [
   {
     q: 'Como recebo os Minecoins?',
-    a: 'Após a compra, os Minecoins são adicionados automaticamente na sua conta do ExploraCraft.',
+    a: 'Após a confirmação do pagamento, os Minecoins são adicionados automaticamente na sua conta do ExploraCraft.',
   },
   {
     q: 'Os Minecoins têm validade?',
@@ -75,7 +80,7 @@ const faq = [
   },
   {
     q: 'Quais formas de pagamento são aceitas?',
-    a: 'Aceitamos PIX, cartão de crédito e boleto bancário.',
+    a: 'Aceitamos PIX.',
   },
 ]
 
@@ -83,19 +88,24 @@ export default function PremiumPage() {
   const [openFaq, setOpenFaq] = useState(null)
   const [userId, setUserId] = useState('')
   const [selectedPkg, setSelectedPkg] = useState(null)
+  const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [copied, setCopied] = useState(false)
 
-  const handlePurchase = async (pkg) => {
+  const handleBuy = () => {
     if (!userId.trim()) {
       setError('Digite seu ID do Discord')
       return
     }
+    setError('')
+    setShowModal(true)
+  }
 
+  const handleConfirmPayment = async () => {
     setLoading(true)
     setError('')
-    setSelectedPkg(pkg)
 
     try {
       const res = await fetch(`${API_BASE}/api/add-coins`, {
@@ -106,8 +116,8 @@ export default function PremiumPage() {
         },
         body: JSON.stringify({
           user_id: userId.trim(),
-          quantidade: pkg.coins,
-          motivo: `compra_${pkg.id}`,
+          quantidade: selectedPkg.coins,
+          motivo: `compra_${selectedPkg.id}`,
         }),
       })
 
@@ -117,17 +127,24 @@ export default function PremiumPage() {
         throw new Error(data.error || 'Erro ao processar compra')
       }
 
+      setShowModal(false)
       setSuccess(true)
+      setSelectedPkg(null)
       setTimeout(() => {
         setSuccess(false)
         setUserId('')
-        setSelectedPkg(null)
-      }, 3000)
+      }, 4000)
     } catch (err) {
       setError(err.message)
     } finally {
       setLoading(false)
     }
+  }
+
+  const copyPix = () => {
+    navigator.clipboard.writeText(PIX_KEY)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -183,7 +200,7 @@ export default function PremiumPage() {
               placeholder="Ex: 123456789012345678"
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 transition-colors"
             />
-            {error && (
+            {error && !showModal && (
               <p className="text-red-400 text-sm mt-2">{error}</p>
             )}
             {success && (
@@ -235,26 +252,11 @@ export default function PremiumPage() {
               </ul>
 
               <button
-                onClick={() => handlePurchase(pkg)}
-                disabled={loading || success}
-                className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => { setSelectedPkg(pkg); handleBuy() }}
+                className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2"
               >
-                {loading && selectedPkg?.id === pkg.id ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Processando...
-                  </>
-                ) : success && selectedPkg?.id === pkg.id ? (
-                  <>
-                    <CheckCircle2 size={18} />
-                    Concluído!
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart size={18} />
-                    Comprar
-                  </>
-                )}
+                <ShoppingCart size={18} />
+                Comprar
               </button>
             </motion.div>
           ))}
@@ -295,6 +297,116 @@ export default function PremiumPage() {
           </div>
         </motion.div>
       </div>
+
+      {/* Payment Modal */}
+      <AnimatePresence>
+        {showModal && selectedPkg && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-5"
+            style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}
+            onClick={() => { setShowModal(false); setError('') }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="w-full max-w-md rounded-2xl overflow-hidden relative bg-[#1a1a1a] border border-white/10"
+              style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.6)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="p-6 border-b border-white/10 flex items-center justify-between">
+                <h3 className="text-xl text-white font-bold">Confirmar Pagamento</h3>
+                <button
+                  onClick={() => { setShowModal(false); setError('') }}
+                  className="p-2 rounded-full bg-white/5 text-white/70 hover:text-white hover:bg-white/10 transition-all"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                {/* Order Summary */}
+                <div className="bg-white/5 rounded-xl p-4 mb-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-gray-400">Pacote</span>
+                    <span className="text-white font-bold">{selectedPkg.name}</span>
+                  </div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-gray-400">Minecoins</span>
+                    <span className="text-yellow-400 font-bold">{selectedPkg.coins.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-400">Valor</span>
+                    <span className="text-mc-green font-bold">{selectedPkg.price}</span>
+                  </div>
+                </div>
+
+                {/* User ID */}
+                <div className="bg-white/5 rounded-xl p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-400">ID do Discord</span>
+                    <span className="text-white font-mono text-sm">{userId}</span>
+                  </div>
+                </div>
+
+                {/* PIX */}
+                <div className="mb-6">
+                  <p className="text-gray-400 text-sm mb-3">Copie a chave PIX e faça o pagamento:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-white/5 rounded-lg px-4 py-3 text-white font-mono text-sm truncate">
+                      {PIX_KEY}
+                    </div>
+                    <button
+                      onClick={copyPix}
+                      className="p-3 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all"
+                    >
+                      {copied ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
+                    </button>
+                  </div>
+                </div>
+
+                {error && (
+                  <p className="text-red-400 text-sm mb-4">{error}</p>
+                )}
+
+                {/* Confirm Button */}
+                <button
+                  onClick={handleConfirmPayment}
+                  disabled={loading}
+                  className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    background: 'linear-gradient(180deg, #7cb342 0%, #558b2f 100%)',
+                    color: 'white',
+                    textShadow: '1px 1px 0px rgba(0,0,0,0.3)',
+                  }}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      Confirmando...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 size={20} />
+                      Confirmar Pagamento
+                    </>
+                  )}
+                </button>
+
+                <p className="text-gray-500 text-xs text-center mt-4">
+                  Após confirmar, os Minecoins serão adicionados na sua conta automaticamente.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
