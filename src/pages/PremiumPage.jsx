@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, User, Loader2, CheckCircle2, X, Copy } from 'lucide-react'
+import { useDiscordAuth } from '../hooks/useDiscordAuth'
 
 const API_BASE = ''
 
@@ -85,6 +86,7 @@ const faq = [
 ]
 
 export default function PremiumPage() {
+  const { user, login } = useDiscordAuth()
   const [openFaq, setOpenFaq] = useState(null)
   const [userId, setUserId] = useState('')
   const [selectedPkg, setSelectedPkg] = useState(null)
@@ -94,8 +96,10 @@ export default function PremiumPage() {
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
 
+  const effectiveUserId = user ? user.id : userId
+
   const handleBuy = () => {
-    if (!userId.trim()) {
+    if (!effectiveUserId.trim()) {
       setError('Digite seu ID do Discord')
       return
     }
@@ -115,7 +119,7 @@ export default function PremiumPage() {
           'X-API-Key': 'exploracraft-api-key-2026',
         },
         body: JSON.stringify({
-          user_id: userId.trim(),
+          user_id: effectiveUserId.trim(),
           quantidade: selectedPkg.coins,
           motivo: `compra_${selectedPkg.id}`,
         }),
@@ -197,15 +201,33 @@ export default function PremiumPage() {
           <div className="bg-mc-bg-card rounded-xl p-6 border border-white/10">
             <label className="flex items-center gap-2 text-white font-semibold mb-3">
               <User size={18} />
-              Seu ID do Discord
+              {user ? 'Conectado como' : 'Seu ID do Discord'}
             </label>
-            <input
-              type="text"
-              value={userId}
-              onChange={(e) => { setUserId(e.target.value); setError('') }}
-              placeholder="Ex: 123456789012345678"
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 transition-colors"
-            />
+            {user ? (
+              <div className="flex items-center gap-3 bg-white/5 border border-mc-green/30 rounded-lg px-4 py-3">
+                <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
+                <div>
+                  <p className="text-white font-bold text-sm">{user.globalName}</p>
+                  <p className="text-gray-400 text-xs">ID: {user.id}</p>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <input
+                  type="text"
+                  value={userId}
+                  onChange={(e) => { setUserId(e.target.value); setError('') }}
+                  placeholder="Ex: 123456789012345678"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 transition-colors"
+                />
+                <button
+                  onClick={login}
+                  className="mt-3 w-full text-mc-green text-sm font-semibold bg-transparent border border-mc-green/30 rounded-lg px-4 py-2 cursor-pointer hover:bg-mc-green/10 transition-colors"
+                >
+                  Entrar com Discord para preencher automaticamente
+                </button>
+              </div>
+            )}
             {error && !showModal && (
               <p className="text-red-400 text-sm mt-2">{error}</p>
             )}

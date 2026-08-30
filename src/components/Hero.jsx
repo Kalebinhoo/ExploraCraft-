@@ -3,10 +3,12 @@ import { motion } from 'framer-motion'
 import Particles from '@tsparticles/react'
 import { loadFull } from 'tsparticles'
 import { useClickSound } from '../hooks/useClickSound'
+import { useDiscordAuth } from '../hooks/useDiscordAuth'
 
 export default function Hero() {
   const [ready, setReady] = useState(false)
   const playClick = useClickSound()
+  const { user, login } = useDiscordAuth()
 
   useEffect(() => {
     loadFull().then(() => setReady(true))
@@ -108,27 +110,48 @@ export default function Hero() {
 
           {/* Buttons */}
           <motion.div variants={itemVariants} className="flex gap-5 flex-wrap justify-center">
-            <motion.a
-              href="https://discord.com/oauth2/authorize"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={playClick}
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden"
-              style={{
-                background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
-                textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
-                border: '2px solid #2d5016',
-                borderTopColor: '#9ccc65',
-                borderLeftColor: '#9ccc65',
-                borderBottomColor: '#1a1a1a',
-                borderRightColor: '#1a1a1a',
-                boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 0 #1a1a1a, 0 6px 8px rgba(0,0,0,0.5)',
-              }}
-            >
-              Adicionar ao Discord
-            </motion.a>
+            {user ? (
+              <motion.a
+                href="https://discord.com/oauth2/authorize"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
+                  textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
+                  border: '2px solid #2d5016',
+                  borderTopColor: '#9ccc65',
+                  borderLeftColor: '#9ccc65',
+                  borderBottomColor: '#1a1a1a',
+                  borderRightColor: '#1a1a1a',
+                  boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 0 #1a1a1a, 0 6px 8px rgba(0,0,0,0.5)',
+                }}
+              >
+                Adicionar ao Discord
+              </motion.a>
+            ) : (
+              <motion.button
+                onClick={() => { playClick(); login() }}
+                whileHover={{ y: -2, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden cursor-pointer border-none"
+                style={{
+                  background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
+                  textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
+                  border: '2px solid #2d5016',
+                  borderTopColor: '#9ccc65',
+                  borderLeftColor: '#9ccc65',
+                  borderBottomColor: '#1a1a1a',
+                  borderRightColor: '#1a1a1a',
+                  boxShadow: 'inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0,0,0,0.3), 0 4px 0 #1a1a1a, 0 6px 8px rgba(0,0,0,0.5)',
+                }}
+              >
+                Entrar com Discord
+              </motion.button>
+            )}
           </motion.div>
         </motion.div>
       </motion.div>
