@@ -13,6 +13,7 @@
     "@libsql/client": "^0.17.4",
     "@tailwindcss/vite": "^4.3.3",
     "@tsparticles/react": "^4.3.2",
+    "express": "^5.2.1",
     "framer-motion": "^13.1.1",
     "lucide-react": "^1.37.0",
     "react": "^19.2.8",
