@@ -36,7 +36,7 @@ export default function Servers() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-4xl max-md:text-2xl text-center mb-12 text-gray-200 font-bold tracking-wider px-6"
+        className="text-4xl max-md:text-2xl text-center mb-12 text-white font-bold tracking-wider px-6"
         style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
       >
         Várias pessoas curte o ExploraCraft!
