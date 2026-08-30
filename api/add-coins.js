@@ -1,5 +1,5 @@
-import { verifyApiKey } from '../_lib/auth.js'
-import { addBalance } from '../_lib/db.js'
+import { verifyApiKey } from './_lib/auth.js'
+import { addBalance } from './_lib/db.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       balance: result.balance,
       motivo: motivo || 'compra',
     })
-  } catch {
-    return res.status(500).json({ error: 'Erro ao adicionar coins' })
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao adicionar coins', detail: err.message })
   }
 }
