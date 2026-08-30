@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Sun, Moon } from 'lucide-react'
-import { useTheme } from '../contexts/ThemeContext'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { isDark, toggle } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -62,14 +60,6 @@ export default function Header() {
               </a>
             ))}
 
-            <button
-              onClick={toggle}
-              className="p-2 rounded-lg bg-white/5 text-white/70 hover:text-gray-300 hover:bg-white/10 transition-all duration-300"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-
             <a
               href="https://discord.com/oauth2/authorize"
               target="_blank"
@@ -92,13 +82,6 @@ export default function Header() {
 
           {/* Mobile controls */}
           <div className="flex md:hidden items-center gap-3">
-            <button
-              onClick={toggle}
-              className="p-2 rounded-lg bg-white/5 text-white/70 hover:text-gray-300 transition-all"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="p-2 text-white"
