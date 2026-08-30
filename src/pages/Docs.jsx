@@ -1,67 +1,86 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Home, Search, Hammer, Monitor, UserCog, BarChart3, Settings, ChevronRight, ArrowLeft } from 'lucide-react'
+import { Home, Search, Play, Axe, Map, Gamepad2, Coins, Shield, ChevronRight, ArrowLeft } from 'lucide-react'
 
 const docsSections = [
   {
     id: 'getting-started',
     title: 'Começando',
-    icon: Hammer,
+    icon: Play,
     content: [
       {
         title: 'Instalação',
-        text: 'Adicione o ExploraCraft ao seu servidor de Discord clicando no botão "Adicionar ao Discord". O bot precisará de permissões de administrador para funcionar corretamente.',
+        text: 'Adicione o ExploraCraft ao seu servidor de Discord clicando no botão "Adicionar ao Discord". O bot precisará de permissões para funcionar corretamente.',
       },
       {
-        title: 'Configuração Inicial',
-        text: 'Use o comando /setup para iniciar a configuração básica do bot. Ele irá guiar você através do processo de vinculação com seu servidor Minecraft.',
+        title: 'Começando a Jogar',
+        text: 'Use o comando /iniciar para começar sua aventura no ExploraCraft! Você vai começar com vida, fome e pode explorar biomas, coletar recursos e craftar itens.',
       },
       {
-        title: 'Permissões',
-        text: 'O bot requer as seguintes permissões: Enviar Mensagens, Embed Links, Anexar Arquivos, Ler Histórico, Gerenciar Mensagens.',
+        title: 'Seu Perfil',
+        text: 'Use /perfil para ver seu perfil de jogador e /status para acompanhar sua vida, fome e XP em tempo real.',
       },
     ],
   },
   {
-    id: 'status-commands',
-    title: 'Comandos de Status',
-    icon: Monitor,
+    id: 'progression',
+    title: 'Progressão',
+    icon: Play,
     commands: [
-      { name: '/status', description: 'Mostra o status em tempo real do servidor, incluindo jogadores online, TPS, memória usage e versão.' },
-      { name: '/players', description: 'Lista todos os jogadores atualmente online no servidor, com seus ping e tempo de jogo.' },
-      { name: '/info', description: 'Exibe informações detalhadas do servidor: IP, porta, versão, plugins instalados e configurações.' },
+      { name: '/iniciar', description: 'Inicie sua aventura no ExploraCraft!' },
+      { name: '/perfil', description: 'Veja seu perfil de jogador' },
+      { name: '/status', description: 'Veja seu status de vida, fome e XP' },
+      { name: '/ranking', description: 'Veja os rankings de jogadores' },
     ],
   },
   {
-    id: 'management-commands',
-    title: 'Comandos de Gerenciamento',
-    icon: UserCog,
+    id: 'crafting',
+    title: 'Coleta e Crafting',
+    icon: Axe,
     commands: [
-      { name: '/kick [jogador] [razão]', description: 'Remove um jogador do servidor. A razão é opcional. Exemplo: /kick Steve flood' },
-      { name: '/ban [jogador] [razão]', description: 'Bane permanentemente um jogador do servidor. Suporta Temporary bans.' },
-      { name: '/whitelist [adicionar/remover] [jogador]', description: 'Gerencia a whitelist do servidor. Adiciona ou remove jogadores da lista.' },
-      { name: '/tp [jogador1] [jogador2]', description: 'Teleporta um jogador para a posição de outro jogador.' },
+      { name: '/madeira', description: 'Colete madeira no bioma atual' },
+      { name: '/craft', description: 'Crie itens e ferramentas' },
+      { name: '/fornalha', description: 'Processe itens na fornalha' },
+      { name: '/inventario', description: 'Veja seu inventário' },
+      { name: '/parar', description: 'Pare de coletar madeira' },
     ],
   },
   {
-    id: 'stats-commands',
-    title: 'Comandos de Estatísticas',
-    icon: BarChart3,
+    id: 'exploration',
+    title: 'Exploração',
+    icon: Map,
     commands: [
-      { name: '/stats [jogador]', description: 'Mostra estatísticas detalhadas: blocos quebrados, mobs mortos, tempo de jogo, distâncias percorridas.' },
-      { name: '/leaderboard [categoria]', description: 'Exibe o ranking dos jogadores em diferentes categorias: tempo de jogo, mineração, construção.' },
-      { name: '/playtime [jogador]', description: 'Mostra o tempo total de jogo de um jogador, com gráficos diários e semanais.' },
+      { name: '/explorar', description: 'Explore diferentes locais e biomas' },
+      { name: '/cacar', description: 'Vá caçar animais no bioma' },
+      { name: '/pararcacar', description: 'Pare de caçar e resete tentativas' },
     ],
   },
   {
-    id: 'config-commands',
-    title: 'Configuração',
-    icon: Settings,
+    id: 'minigames',
+    title: 'Mini-Games',
+    icon: Gamepad2,
     commands: [
-      { name: '/setup', description: 'Inicia o assistente de configuração interativo. Vincula o bot ao seu servidor Minecraft.' },
-      { name: '/notify [canal] [tipo]', description: 'Configura canais de notificação para diferentes eventos: join, leave, death, achievement.' },
-      { name: '/prefix [novo]', description: 'Altera o prefixo dos comandos. Pode ser qualquer sequência de caracteres.' },
+      { name: '/exploragames', description: 'Jogue mini-games divertidos diretamente no Discord' },
+    ],
+  },
+  {
+    id: 'economy',
+    title: 'Economia',
+    icon: Coins,
+    commands: [
+      { name: '/saldo', description: 'Veja seu saldo de Minecoins' },
+      { name: '/adicionar_saldo', description: 'Adiciona Minecoins (apenas dono)' },
+    ],
+  },
+  {
+    id: 'admin',
+    title: 'Administração',
+    icon: Shield,
+    commands: [
+      { name: '/ver_jogador', description: 'Ver informações de um jogador' },
+      { name: '/dar_itens_todos', description: 'Dar todos os itens craftáveis' },
+      { name: '/ajuda', description: 'Veja todos os comandos disponíveis' },
     ],
   },
 ]
