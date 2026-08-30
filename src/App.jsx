@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import Home from './pages/Home'
 import Docs from './pages/Docs'
+import CommandsPage from './pages/CommandsPage'
 import './index.css'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/comandos" element={<CommandsPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
