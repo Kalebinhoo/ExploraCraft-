@@ -7,7 +7,13 @@ const commandCategories = [
   {
     category: 'Início e Progressão',
     icon: Play,
-    color: 'from-green-500/20 to-green-600/5',
+    bg: 'bg-gradient-to-br from-green-900/40 to-green-950/20',
+    border: 'border-green-500/20 hover:border-green-500/40',
+    iconBg: 'bg-green-500/20',
+    iconColor: 'text-green-400',
+    cmdBg: 'bg-green-500/5',
+    cmdBorder: 'border-l-green-500/40',
+    cmdName: 'text-green-400',
     commands: [
       { name: '/iniciar', description: 'Inicie sua aventura no ExploraCraft!' },
       { name: '/perfil', description: 'Veja seu perfil de jogador' },
@@ -18,7 +24,13 @@ const commandCategories = [
   {
     category: 'Coleta e Crafting',
     icon: Axe,
-    color: 'from-amber-500/20 to-amber-600/5',
+    bg: 'bg-gradient-to-br from-amber-900/40 to-amber-950/20',
+    border: 'border-amber-500/20 hover:border-amber-500/40',
+    iconBg: 'bg-amber-500/20',
+    iconColor: 'text-amber-400',
+    cmdBg: 'bg-amber-500/5',
+    cmdBorder: 'border-l-amber-500/40',
+    cmdName: 'text-amber-400',
     commands: [
       { name: '/madeira', description: 'Colete madeira no bioma atual' },
       { name: '/craft', description: 'Crie itens e ferramentas' },
@@ -30,7 +42,13 @@ const commandCategories = [
   {
     category: 'Exploração',
     icon: Map,
-    color: 'from-blue-500/20 to-blue-600/5',
+    bg: 'bg-gradient-to-br from-blue-900/40 to-blue-950/20',
+    border: 'border-blue-500/20 hover:border-blue-500/40',
+    iconBg: 'bg-blue-500/20',
+    iconColor: 'text-blue-400',
+    cmdBg: 'bg-blue-500/5',
+    cmdBorder: 'border-l-blue-500/40',
+    cmdName: 'text-blue-400',
     commands: [
       { name: '/explorar', description: 'Explore diferentes locais e biomas' },
       { name: '/cacar', description: 'Vá caçar animais no bioma' },
@@ -40,7 +58,13 @@ const commandCategories = [
   {
     category: 'Mini-Games',
     icon: Gamepad2,
-    color: 'from-purple-500/20 to-purple-600/5',
+    bg: 'bg-gradient-to-br from-purple-900/40 to-purple-950/20',
+    border: 'border-purple-500/20 hover:border-purple-500/40',
+    iconBg: 'bg-purple-500/20',
+    iconColor: 'text-purple-400',
+    cmdBg: 'bg-purple-500/5',
+    cmdBorder: 'border-l-purple-500/40',
+    cmdName: 'text-purple-400',
     commands: [
       { name: '/exploragames', description: 'Jogue mini-games divertidos diretamente no Discord' },
     ],
@@ -48,7 +72,13 @@ const commandCategories = [
   {
     category: 'Economia',
     icon: Coins,
-    color: 'from-yellow-500/20 to-yellow-600/5',
+    bg: 'bg-gradient-to-br from-yellow-900/40 to-yellow-950/20',
+    border: 'border-yellow-500/20 hover:border-yellow-500/40',
+    iconBg: 'bg-yellow-500/20',
+    iconColor: 'text-yellow-400',
+    cmdBg: 'bg-yellow-500/5',
+    cmdBorder: 'border-l-yellow-500/40',
+    cmdName: 'text-yellow-400',
     commands: [
       { name: '/saldo', description: 'Veja seu saldo de Minecoins' },
       { name: '/adicionar_saldo', description: 'Adiciona Minecoins (apenas dono)' },
@@ -57,7 +87,13 @@ const commandCategories = [
   {
     category: 'Administração',
     icon: Shield,
-    color: 'from-red-500/20 to-red-600/5',
+    bg: 'bg-gradient-to-br from-red-900/40 to-red-950/20',
+    border: 'border-red-500/20 hover:border-red-500/40',
+    iconBg: 'bg-red-500/20',
+    iconColor: 'text-red-400',
+    cmdBg: 'bg-red-500/5',
+    cmdBorder: 'border-l-red-500/40',
+    cmdName: 'text-red-400',
     commands: [
       { name: '/ver_jogador', description: 'Ver informações de um jogador' },
       { name: '/dar_itens_todos', description: 'Dar todos os itens craftáveis' },
@@ -134,11 +170,11 @@ export default function CommandsPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: catIndex * 0.08 }}
-              className={`bg-gradient-to-br ${cat.color} rounded-2xl p-6 border border-white/5 hover:border-white/10 transition-all duration-300`}
+              className={`${cat.bg} rounded-2xl p-6 border ${cat.border} transition-all duration-300`}
             >
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                  <cat.icon size={20} className="text-gray-300" />
+                <div className={`w-10 h-10 rounded-xl ${cat.iconBg} flex items-center justify-center`}>
+                  <cat.icon size={20} className={cat.iconColor} />
                 </div>
                 <h2 className="text-lg text-white font-bold m-0">
                   {cat.category}
@@ -149,9 +185,9 @@ export default function CommandsPage() {
                 {cat.commands.map((cmd) => (
                   <div
                     key={cmd.name}
-                    className="p-3 bg-black/20 rounded-lg hover:bg-black/30 transition-colors"
+                    className={`p-3 ${cat.cmdBg} rounded-lg border-l-2 ${cat.cmdBorder} hover:brightness-110 transition-all`}
                   >
-                    <div className="font-mono text-sm text-mc-green-light font-bold">
+                    <div className={`font-mono text-sm ${cat.cmdName} font-bold`}>
                       {cmd.name}
                     </div>
                     <div className="text-gray-400 text-xs mt-1">
