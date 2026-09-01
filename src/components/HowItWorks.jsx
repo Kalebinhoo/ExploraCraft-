@@ -1,27 +1,21 @@
 import { motion } from 'framer-motion'
-import { UserPlus, Terminal, Pickaxe, Trophy } from 'lucide-react'
-
 const steps = [
   {
-    icon: UserPlus,
     step: '01',
     title: 'Adicione o Bot',
     description: 'Adicione o ExploraCraft no seu servidor do Discord com apenas um clique.',
   },
   {
-    icon: Terminal,
     step: '02',
     title: 'Inicie sua Jornada',
     description: 'Use o comando /iniciar para criar seu personagem e começar a aventura.',
   },
   {
-    icon: Pickaxe,
     step: '03',
     title: 'Explore e Colete',
     description: 'Minere recursos, colete materiais e explore diferentes biomas pelo mapa.',
   },
   {
-    icon: Trophy,
     step: '04',
     title: 'Evolua e Compita',
     description: 'Up de nível, desbloqueie itens raros e suba no ranking dos melhores jogadores.',
@@ -58,10 +52,6 @@ export default function HowItWorks() {
                 <div className="relative z-10">
                   <div className="text-3xl md:text-5xl font-black text-white/5 absolute top-3 right-3 md:top-4 md:right-4 select-none">
                     {step.step}
-                  </div>
-
-                  <div className="w-14 h-14 md:w-20 md:h-20 mx-auto mb-4 md:mb-6 bg-white/5 rounded-2xl flex items-center justify-center relative">
-                    <step.icon size={28} className="text-gray-400 drop-shadow-lg" />
                   </div>
 
                   <h3
