@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, LogOut } from 'lucide-react'
+import { Menu, X, LogOut, User } from 'lucide-react'
 import { useClickSound } from '../hooks/useClickSound'
 import { useDiscordAuth } from '../hooks/useDiscordAuth'
 
@@ -92,7 +92,7 @@ export default function Header() {
                   <img
                     src={user.avatar}
                     alt={user.username}
-                    className="w-9 h-9 rounded-full border-2 border-mc-green"
+                    className="w-9 h-9 rounded-full"
                     onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=80` }}
                   />
                   <span className="text-white font-semibold text-sm">{user.username}</span>
@@ -110,6 +110,14 @@ export default function Header() {
                         <p className="text-white font-bold text-sm">{user.globalName}</p>
                         <p className="text-gray-400 text-xs">@{user.username}</p>
                       </div>
+                      <a
+                        href="/dashboard"
+                        onClick={() => { playClick(); setUserMenuOpen(false) }}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-white hover:bg-white/5 border-none bg-transparent cursor-pointer text-sm font-semibold transition-colors no-underline"
+                      >
+                        <User size={16} />
+                        Perfil
+                      </a>
                       <button
                         onClick={() => { playClick(); logout(); setUserMenuOpen(false) }}
                         className="w-full flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-white/5 border-none bg-transparent cursor-pointer text-sm font-semibold transition-colors"
@@ -138,7 +146,7 @@ export default function Header() {
               <img
                 src={user.avatar}
                 alt={user.username}
-                className="w-8 h-8 rounded-full border-2 border-mc-green"
+                className="w-8 h-8 rounded-full"
                 onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=64` }}
               />
             )}
@@ -190,7 +198,7 @@ export default function Header() {
                     <img
                       src={user.avatar}
                       alt={user.username}
-                      className="w-10 h-10 rounded-full border-2 border-mc-green"
+                      className="w-10 h-10 rounded-full"
                       onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=80` }}
                     />
                     <div className="text-left">
@@ -198,6 +206,14 @@ export default function Header() {
                       <p className="text-gray-400 text-xs">@{user.username}</p>
                     </div>
                   </div>
+                  <a
+                    href="/dashboard"
+                    onClick={() => { playClick(); setMobileOpen(false) }}
+                    className="flex items-center gap-2 text-white font-semibold text-sm bg-transparent border-none cursor-pointer py-2 no-underline"
+                  >
+                    <User size={16} />
+                    Perfil
+                  </a>
                   <button
                     onClick={() => { playClick(); logout(); setMobileOpen(false) }}
                     className="flex items-center gap-2 text-red-400 font-semibold text-sm bg-transparent border-none cursor-pointer py-2"

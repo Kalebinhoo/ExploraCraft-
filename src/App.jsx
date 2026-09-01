@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Docs from './pages/Docs'
 import CommandsPage from './pages/CommandsPage'
 import PremiumPage from './pages/PremiumPage'
+import DashboardPage from './pages/DashboardPage'
 import './index.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/docs" element={<Docs />} />
           <Route path="/comandos" element={<CommandsPage />} />
           <Route path="/premium" element={<PremiumPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
