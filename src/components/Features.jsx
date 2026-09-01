@@ -55,21 +55,21 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            className="bg-mc-bg-card backdrop-blur-sm rounded-2xl p-10 text-center relative overflow-hidden group cursor-default border border-transparent"
+            className="bg-mc-bg-card backdrop-blur-sm rounded-2xl p-6 md:p-10 text-center relative overflow-hidden group cursor-default border border-transparent"
           >
             <div className="relative z-10">
-              <div className="w-24 h-24 mx-auto mb-6 bg-white/5 rounded-2xl flex items-center justify-center">
-                <feature.icon size={40} className="text-gray-400 drop-shadow-lg" />
+              <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 bg-white/5 rounded-2xl flex items-center justify-center">
+                <feature.icon size={32} className="text-gray-400 drop-shadow-lg" />
               </div>
 
               <h3
-                className="text-xl text-gray-300 mb-4 font-bold"
+                className="text-lg md:text-xl text-gray-300 mb-3 md:mb-4 font-bold"
                 style={{ textShadow: '1px 1px 0px rgba(0,0,0,0.5)' }}
               >
                 {feature.title}
               </h3>
 
-              <p className="text-gray-400 leading-relaxed text-base">
+              <p className="text-gray-400 leading-relaxed text-sm md:text-base">
                 {feature.description}
               </p>
             </div>

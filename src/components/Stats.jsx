@@ -48,16 +48,16 @@ export default function Stats() {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ scale: 1.05, borderColor: 'rgba(124,179,66,0.5)' }}
-            className="text-center p-7 bg-mc-bg-card rounded-xl border border-transparent transition-all duration-300 hover:shadow-[0_0_20px_rgba(124,179,66,0.15)]"
+            className="text-center p-4 md:p-7 bg-mc-bg-card rounded-xl border border-transparent transition-all duration-300 hover:shadow-[0_0_20px_rgba(124,179,66,0.15)]"
           >
             <stat.icon
-              size={48}
-              className="mx-auto mb-4 text-gray-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+              size={36}
+              className="mx-auto mb-3 md:mb-4 text-gray-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
             />
-            <div className="text-4xl max-md:text-3xl font-black text-gray-200 mb-2.5" style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5)' }}>
+            <div className="text-3xl md:text-4xl font-black text-gray-200 mb-1.5 md:mb-2.5" style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5)' }}>
               <AnimatedCounter target={stat.number + stat.suffix} />
             </div>
-            <div className="text-sm text-gray-400 font-semibold uppercase tracking-wider">
+            <div className="text-xs md:text-sm text-gray-400 font-semibold uppercase tracking-wider">
               {stat.label}
             </div>
           </motion.div>

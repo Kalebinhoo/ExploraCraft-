@@ -121,7 +121,7 @@ export default function CommandsPage() {
 
   return (
     <div className="min-h-screen bg-mc-bg py-20 relative z-10">
-      <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <Link
@@ -170,13 +170,13 @@ export default function CommandsPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: catIndex * 0.08 }}
-              className={`${cat.bg} rounded-2xl p-6 border ${cat.border} transition-all duration-300`}
+              className={`${cat.bg} rounded-2xl p-4 md:p-6 border ${cat.border} transition-all duration-300`}
             >
-              <div className="flex items-center gap-3 mb-5">
-                <div className={`w-10 h-10 rounded-xl ${cat.iconBg} flex items-center justify-center`}>
-                  <cat.icon size={20} className={cat.iconColor} />
+              <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-5">
+                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl ${cat.iconBg} flex items-center justify-center`}>
+                  <cat.icon size={18} className={cat.iconColor} />
                 </div>
-                <h2 className="text-lg text-white font-bold m-0">
+                <h2 className="text-base md:text-lg text-white font-bold m-0">
                   {cat.category}
                 </h2>
               </div>
@@ -185,7 +185,7 @@ export default function CommandsPage() {
                 {cat.commands.map((cmd) => (
                   <div
                     key={cmd.name}
-                    className={`p-3 ${cat.cmdBg} rounded-lg border-l-2 ${cat.cmdBorder} hover:brightness-110 transition-all`}
+                    className={`p-2.5 md:p-3 ${cat.cmdBg} rounded-lg border-l-2 ${cat.cmdBorder} hover:brightness-110 transition-all`}
                   >
                     <div className={`font-mono text-sm ${cat.cmdName} font-bold`}>
                       {cmd.name}

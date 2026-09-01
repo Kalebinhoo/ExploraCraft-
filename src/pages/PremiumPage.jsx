@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, User, Loader2, CheckCircle2, X, Copy } from 'lucide-react'
+import { Coins, Star, Zap, ArrowLeft, Check, ShoppingCart, Loader2, CheckCircle2, X, Copy } from 'lucide-react'
 import { useDiscordAuth } from '../hooks/useDiscordAuth'
 
 const API_BASE = ''
@@ -88,7 +88,6 @@ const faq = [
 export default function PremiumPage() {
   const { user, login } = useDiscordAuth()
   const [openFaq, setOpenFaq] = useState(null)
-  const [userId, setUserId] = useState('')
   const [selectedPkg, setSelectedPkg] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -96,14 +95,12 @@ export default function PremiumPage() {
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
 
-  const effectiveUserId = user ? user.id : userId
-
-  const handleBuy = () => {
-    if (!effectiveUserId.trim()) {
-      setError('Digite seu ID do Discord')
+  const handleBuy = (pkg) => {
+    if (!user) {
+      login()
       return
     }
-    setError('')
+    setSelectedPkg(pkg)
     setShowModal(true)
   }
 
@@ -119,7 +116,7 @@ export default function PremiumPage() {
           'X-API-Key': 'exploracraft-api-key-2026',
         },
         body: JSON.stringify({
-          user_id: effectiveUserId.trim(),
+          user_id: user.id,
           quantidade: selectedPkg.coins,
           motivo: `compra_${selectedPkg.id}`,
         }),
@@ -140,10 +137,7 @@ export default function PremiumPage() {
       setShowModal(false)
       setSuccess(true)
       setSelectedPkg(null)
-      setTimeout(() => {
-        setSuccess(false)
-        setUserId('')
-      }, 4000)
+      setTimeout(() => setSuccess(false), 4000)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -175,10 +169,10 @@ export default function PremiumPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Coins size={40} className="text-yellow-400" />
+            <img src="https://minecraft.wiki/images/Marketplace_Minecoins.png?e3529" alt="Minecoins" className="w-10 h-10" />
             <h1
               className="text-5xl max-md:text-3xl text-white font-bold tracking-wider"
               style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
@@ -186,23 +180,19 @@ export default function PremiumPage() {
               Minecoins
             </h1>
           </div>
-          <p className="text-gray-400 max-w-xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-xl mx-auto text-sm md:text-lg px-2">
             Compre Minecoins e use no jogo para comprar itens, ferramentas e recursos exclusivos!
           </p>
         </motion.div>
 
-        {/* User ID Input */}
+        {/* Auth Status */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="max-w-md mx-auto mb-12"
+          className="max-w-md mx-auto mb-8 md:mb-12"
         >
           <div className="bg-mc-bg-card rounded-xl p-6 border border-white/10">
-            <label className="flex items-center gap-2 text-white font-semibold mb-3">
-              <User size={18} />
-              {user ? 'Conectado como' : 'Seu ID do Discord'}
-            </label>
             {user ? (
               <div className="flex items-center gap-3 bg-white/5 border border-mc-green/30 rounded-lg px-4 py-3">
                 <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-full" />
@@ -212,24 +202,18 @@ export default function PremiumPage() {
                 </div>
               </div>
             ) : (
-              <div>
-                <input
-                  type="text"
-                  value={userId}
-                  onChange={(e) => { setUserId(e.target.value); setError('') }}
-                  placeholder="Ex: 123456789012345678"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-mc-green/50 transition-colors"
-                />
+              <div className="text-center">
+                <p className="text-gray-400 text-sm mb-3">Faça login com Discord para comprar Minecoins</p>
                 <button
                   onClick={login}
-                  className="mt-3 w-full text-mc-green text-sm font-semibold bg-transparent border border-mc-green/30 rounded-lg px-4 py-2 cursor-pointer hover:bg-mc-green/10 transition-colors"
+                  className="w-full py-3 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2"
                 >
-                  Entrar com Discord para preencher automaticamente
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
+                  </svg>
+                  Entrar com Discord
                 </button>
               </div>
-            )}
-            {error && !showModal && (
-              <p className="text-red-400 text-sm mt-2">{error}</p>
             )}
             {success && (
               <p className="text-green-400 text-sm mt-2 flex items-center gap-2">
@@ -248,7 +232,7 @@ export default function PremiumPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + index * 0.1 }}
-              className={`relative bg-gradient-to-br ${pkg.color} rounded-2xl p-8 border ${pkg.border} transition-all duration-300`}
+              className={`relative bg-gradient-to-br ${pkg.color} rounded-2xl p-6 md:p-8 border ${pkg.border} transition-all duration-300`}
             >
               {pkg.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mc-green text-black text-xs font-bold px-4 py-1 rounded-full">
@@ -256,8 +240,8 @@ export default function PremiumPage() {
                 </div>
               )}
 
-              <div className={`w-14 h-14 mb-5 rounded-xl ${pkg.iconBg} flex items-center justify-center`}>
-                <pkg.icon size={28} className="text-yellow-400" />
+              <div className={`w-12 h-12 md:w-14 md:h-14 mb-4 md:mb-5 rounded-xl ${pkg.iconBg} flex items-center justify-center`}>
+                <pkg.icon size={24} className="text-yellow-400" />
               </div>
 
               <h3 className="text-xl text-white font-bold mb-1">{pkg.name}</h3>
@@ -280,11 +264,11 @@ export default function PremiumPage() {
               </ul>
 
               <button
-                onClick={() => { setSelectedPkg(pkg); handleBuy() }}
+                onClick={() => handleBuy(pkg)}
                 className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all duration-300 cursor-pointer border-none flex items-center justify-center gap-2"
               >
                 <ShoppingCart size={18} />
-                Comprar
+                {user ? 'Comprar' : 'Entrar para comprar'}
               </button>
             </motion.div>
           ))}
@@ -378,8 +362,8 @@ export default function PremiumPage() {
                 {/* User ID */}
                 <div className="bg-white/5 rounded-xl p-4 mb-6">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-400">ID do Discord</span>
-                    <span className="text-white font-mono text-sm">{userId}</span>
+                    <span className="text-gray-400">Conta</span>
+                    <span className="text-white font-bold text-sm">{user?.globalName}</span>
                   </div>
                 </div>
 

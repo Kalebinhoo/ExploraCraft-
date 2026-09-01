@@ -91,9 +91,9 @@ export default function Hero() {
           className="flex flex-col items-center"
         >
           {/* Title */}
-          <motion.h1 variants={itemVariants} className="flex flex-col gap-4 mb-8">
+          <motion.h1 variants={itemVariants} className="flex flex-col gap-4 mb-6 md:mb-8">
             <span
-              className="text-6xl sm:text-7xl max-md:text-5xl font-black text-white tracking-wider"
+              className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-wider"
               style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
             >
               ExploraCraft
@@ -103,13 +103,13 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-lg max-md:text-base text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base md:text-lg text-gray-400 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed px-2"
           >
             Jogue Minecraft dentro do Discord com amigos. Explore, colete, craft e evolua — tudo em um mini-game interativo!
           </motion.p>
 
           {/* Buttons */}
-          <motion.div variants={itemVariants} className="flex gap-5 flex-wrap justify-center">
+          <motion.div variants={itemVariants} className="flex gap-3 sm:gap-5 flex-wrap justify-center px-2">
             {user ? (
               <motion.a
                 href="https://discord.com/oauth2/authorize"
@@ -118,7 +118,7 @@ export default function Hero() {
                 onClick={playClick}
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden"
+                className="text-white no-underline font-bold px-5 sm:px-8 py-3 sm:py-4 rounded relative overflow-hidden"
                 style={{
                   background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
                   textShadow: '2px 2px 0px rgba(0,0,0,0.3)',
@@ -137,7 +137,7 @@ export default function Hero() {
                 onClick={() => { playClick(); login() }}
                 whileHover={{ y: -2, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="text-white no-underline font-bold px-8 py-4 rounded relative overflow-hidden cursor-pointer border-none"
+                className="text-white no-underline font-bold px-5 sm:px-8 py-3 sm:py-4 rounded relative overflow-hidden cursor-pointer border-none"
                 style={{
                   background: 'linear-gradient(180deg, #7cb342 0%, #689f38 50%, #558b2f 100%)',
                   textShadow: '2px 2px 0px rgba(0,0,0,0.3)',

@@ -24,7 +24,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-white no-underline transition-all duration-200 hover:translate-y-0.5 active:translate-y-1"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white no-underline transition-all duration-200 hover:translate-y-0.5 active:translate-y-1"
                   style={{
                     background: social.bg,
                     boxShadow: `0 4px 0 ${social.shadow}, 0 6px 10px rgba(0,0,0,0.4)`,
@@ -34,7 +34,8 @@ export default function Footer() {
                   }}
                   title={social.label}
                 >
-                  <social.icon size={24} />
+                  <social.icon size={20} className="md:hidden" />
+                  <social.icon size={24} className="hidden md:block" />
                 </a>
               ))}
             </div>

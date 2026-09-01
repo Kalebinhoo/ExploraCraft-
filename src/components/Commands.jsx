@@ -79,10 +79,10 @@ export default function Commands() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: catIndex * 0.1 }}
-            className="bg-mc-bg-card rounded-xl p-5 border border-mc-green/10 hover:border-mc-green/30 transition-all duration-300"
+            className="bg-mc-bg-card rounded-xl p-4 md:p-5 border border-mc-green/10 hover:border-mc-green/30 transition-all duration-300"
           >
-            <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-white/10">
-              <cat.icon size={20} className="text-gray-400" />
+            <div className="flex items-center gap-2 md:gap-2.5 mb-3 md:mb-4 pb-2 md:pb-3 border-b border-white/10">
+              <cat.icon size={18} className="text-gray-400" />
               <h3
                 className="text-base text-gray-300 font-bold m-0"
                 style={{ textShadow: '1px 1px 0px rgba(0,0,0,0.5)' }}
@@ -95,7 +95,7 @@ export default function Commands() {
               {cat.commands.map((cmd) => (
                 <div
                   key={cmd.name}
-                  className="p-2.5 bg-white/5 border-l-2 border-white/20 hover:border-white/40 transition-colors"
+                  className="p-2 md:p-2.5 bg-white/5 border-l-2 border-white/20 hover:border-white/40 transition-colors"
                 >
                   <div className="font-mono text-sm text-gray-300 font-bold">
                     {cmd.name}

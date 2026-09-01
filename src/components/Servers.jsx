@@ -1,21 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-const fallbackServers = [
-  { name: 'Mizushi', icon: null, id: '1' },
-  { name: 'Smart games', icon: null, id: '2' },
-  { name: 'Scrow Community', icon: null, id: '3' },
-  { name: "Sakura's cafe", icon: null, id: '4' },
-  { name: 'Mundo Lunático', icon: null, id: '5' },
-  { name: 'Minecraft', icon: null, id: '6' },
-  { name: 'Net Caos Craft', icon: null, id: '7' },
-  { name: 'Minecraft V2', icon: null, id: '8' },
-  { name: 'Minecraft V3', icon: null, id: '9' },
-  { name: 'Myra', icon: null, id: '10' },
-]
-
 export default function Servers() {
-  const [servers, setServers] = useState(fallbackServers)
+  const [servers, setServers] = useState([])
 
   useEffect(() => {
     fetch('/api/guilds')
@@ -30,6 +17,8 @@ export default function Servers() {
 
   const duplicated = [...servers, ...servers]
 
+  if (servers.length === 0) return null
+
   return (
     <section className="py-20 relative z-10 bg-[#0d0d0d]/80 mt-16 mb-16 overflow-hidden" id="servers">
       <motion.h2
@@ -39,7 +28,7 @@ export default function Servers() {
         className="text-4xl max-md:text-2xl text-center mb-12 text-white font-bold tracking-wider px-6"
         style={{ textShadow: '2px 2px 0px rgba(0,0,0,0.5), 4px 4px 0px rgba(0,0,0,0.3)' }}
       >
-        Várias pessoas curte o ExploraCraft!
+        Várias pessoas curtem o ExploraCraft!
       </motion.h2>
 
       <div className="relative">
@@ -49,14 +38,14 @@ export default function Servers() {
         <div className="flex gap-8 animate-marquee w-max">
           {duplicated.map((server, index) => (
             <a
-              key={`${server.id || server.name}-${index}`}
-              href={server.invite || `https://discord.gg/${server.id}`}
+              key={`${server.id}-${index}`}
+              href={server.invite}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 flex items-center justify-center group cursor-pointer no-underline animate-wave"
+              className="flex-shrink-0 flex flex-col items-center justify-center group cursor-pointer no-underline animate-wave"
               style={{ animationDelay: `${(index % servers.length) * 0.15}s` }}
             >
-              <div className="w-24 h-24 max-md:w-18 max-md:h-18 rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300">
                 <img
                   src={server.icon || `https://ui-avatars.com/api/?name=${server.name}&background=2d6a4f&color=fff&size=192`}
                   alt={server.name}
@@ -66,6 +55,9 @@ export default function Servers() {
                   }}
                 />
               </div>
+              <span className="mt-2 text-xs text-gray-400 group-hover:text-white transition-colors max-w-16 md:max-w-24 truncate text-center">
+                {server.name}
+              </span>
             </a>
           ))}
         </div>

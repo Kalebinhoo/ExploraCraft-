@@ -113,7 +113,7 @@ export default function Docs() {
     <div className="min-h-screen bg-mc-bg text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#1a1a1a]/95 border-b border-mc-green/20" style={{ backdropFilter: 'blur(16px)' }}>
-        <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-5 py-3 md:py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               to="/"
@@ -123,7 +123,7 @@ export default function Docs() {
               Voltar
             </Link>
             <div className="w-px h-6 bg-mc-green/20" />
-            <h1 className="text-lg font-bold text-mc-green" style={{ textShadow: '1px 1px 0px #2d5016' }}>
+            <h1 className="text-base md:text-lg font-bold text-mc-green" style={{ textShadow: '1px 1px 0px #2d5016' }}>
               Documentação
             </h1>
           </div>
@@ -140,7 +140,7 @@ export default function Docs() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-5 py-8 flex gap-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-5 py-6 md:py-8 flex gap-4 md:gap-8">
         {/* Sidebar */}
         <aside className="w-64 flex-shrink-0 max-lg:hidden">
           <nav className="sticky top-24 flex flex-col gap-2">

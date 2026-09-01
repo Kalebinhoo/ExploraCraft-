@@ -64,7 +64,7 @@ export default function PremiumSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`relative bg-gradient-to-br ${pkg.color} rounded-2xl p-8 border ${pkg.border} transition-all duration-300 text-center`}
+              className={`relative bg-gradient-to-br ${pkg.color} rounded-2xl p-6 md:p-8 border ${pkg.border} transition-all duration-300 text-center`}
             >
               {pkg.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mc-green text-black text-xs font-bold px-4 py-1 rounded-full">
@@ -72,8 +72,8 @@ export default function PremiumSection() {
                 </div>
               )}
 
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/10 flex items-center justify-center">
-                <pkg.icon size={32} className="text-yellow-400" />
+              <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 rounded-2xl bg-white/10 flex items-center justify-center">
+                <pkg.icon size={24} className="text-yellow-400" />
               </div>
 
               <h3 className="text-xl text-white font-bold mb-2">{pkg.name}</h3>
