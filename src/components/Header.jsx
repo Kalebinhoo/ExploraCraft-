@@ -93,6 +93,7 @@ export default function Header() {
                     src={user.avatar}
                     alt={user.username}
                     className="w-9 h-9 rounded-full border-2 border-mc-green"
+                    onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=80` }}
                   />
                   <span className="text-white font-semibold text-sm">{user.username}</span>
                 </button>
@@ -138,6 +139,7 @@ export default function Header() {
                 src={user.avatar}
                 alt={user.username}
                 className="w-8 h-8 rounded-full border-2 border-mc-green"
+                onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=64` }}
               />
             )}
             <button
@@ -189,6 +191,7 @@ export default function Header() {
                       src={user.avatar}
                       alt={user.username}
                       className="w-10 h-10 rounded-full border-2 border-mc-green"
+                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=5865F2&color=fff&size=80` }}
                     />
                     <div className="text-left">
                       <p className="text-white font-bold text-sm">{user.globalName}</p>

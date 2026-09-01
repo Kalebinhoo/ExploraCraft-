@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         id: user.id,
         username: user.username,
         avatar: user.avatar
-          ? 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png'
+          ? 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + (user.avatar.startsWith('a_') ? '.gif' : '.png')
           : 'https://cdn.discordapp.com/embed/avatars/' + (parseInt(user.discriminator || '0') % 5) + '.png',
         globalName: user.global_name || user.username,
       })}));
